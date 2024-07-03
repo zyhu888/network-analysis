@@ -1,0 +1,35 @@
+# about manuscript
+*/*.aux
+*/*.dbj
+*/*.bbl
+*/*.bcf
+*/*.blg
+*/*.idx
+*/*.ind
+*/*.ilg
+*/*.log
+*/*.toc
+*/*.xml
+*/*.zip
+*/*.out
+*/*.swp
+manuscript/*.pdf
+*/*.synctex.gz
+*/*.fff
+*/*.ttt
+*/*.fdb_latexmk
+*/*.fls
+
+# about reference
+reference/*.pdf
+
+# about data
+data/*.xlsx
+data/*.docx
+
+# about code
+code/*.m
+code/*.mexw64
+
+.Rhistory
+minutes.pdf

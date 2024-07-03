@@ -1,0 +1,42 @@
+---
+title: "Collaboration Network Analysis"
+output: github_document
+bibliography: refs.bib
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+## Project Overview
+
+This project aims to analyze the collaboration network of Otolaryngolotist from the United States. The data were collected and maintained by research group led by Dr. Alexander Gelbard from the [Department of Otolaryngology](https://www.vumc.org/ent/) at the [Vanderbilt University Medical Center](https://www.vumc.org/main/home) (VUMC). The statistical analyses were led by Drs. Panpan Zhang from the [Department of Biostatistics](https://www.vumc.org/biostatistics/vanderbilt-department-biostatistics) at VUMC and Jun Yan from the [Department of Statistics](https://statistics.uconn.edu/) at the University of Connecticut (UConn). 
+
+## Network Measures
+
+For each of the network measures listed in this section, we will not only investigate the existing methods in the literature but also explore the potential of new method development.
+
+### Assortativity
+
+Most standard methods can be found in the `igraph` package [@pkg_igraph].
+
+#### Methods for Weighted, Directed Networks
+
+- @yuan2021assortativity
+- @yuan2023generating
+
+#### Methods (Pending for Development)
+
+- @liu2018covariate
+- @tu2023rank
+- @tu2024between
+
+## References
+
+<div id="refs"></div>
+
+
