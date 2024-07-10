@@ -35,6 +35,18 @@ Most standard methods can be found in the `igraph` package [@pkg_igraph].
 - @tu2023rank
 - @tu2024between
 
+### Clustering Coefficient
+
+### Global Efficiency
+
+### Community Detection
+
+### Node-Level Centrality
+
+#### PageRank 
+
+#### Betweenness
+
 ## References
 
 <div id="refs"></div>

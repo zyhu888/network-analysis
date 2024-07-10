@@ -37,6 +37,18 @@ al. 2024).
 - Tu et al. (2023)
 - Tu, Li, and Shepherd (2024)
 
+### Clustering Coefficient
+
+### Global Efficiency
+
+### Community Detection
+
+### Node-Level Centrality
+
+#### PageRank
+
+#### Betweenness
+
 ## References
 
 <div id="refs" class="references csl-bib-body hanging-indent"
