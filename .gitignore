@@ -26,6 +26,7 @@ reference/*.pdf
 # about data
 data/*.xlsx
 data/*.docx
+data/*.csv
 
 # about code
 code/*.m
