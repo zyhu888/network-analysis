@@ -36,3 +36,7 @@ code/*.mexw64
 minutes.pdf
 
 .DS_Store
+# about manuscript
+**/*.aux
+**/*.log
+**/*.synctex.gz
