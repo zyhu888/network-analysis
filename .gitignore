@@ -34,3 +34,5 @@ code/*.mexw64
 
 .Rhistory
 minutes.pdf
+
+.DS_Store
