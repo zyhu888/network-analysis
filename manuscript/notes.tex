@@ -1,0 +1,603 @@
+\documentclass[12pt]{article}
+
+%% preamble: Keep it clean; only include those you need
+\usepackage{amsmath}
+\usepackage[margin = 1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+
+%% for double spacing
+\usepackage{setspace}
+
+% for space filling
+\usepackage{lipsum}
+% highlighting hyper links
+\usepackage[colorlinks=true, citecolor=blue]{hyperref}
+
+\usepackage{indentfirst}
+
+%% meta data
+
+\title{Literature Review}
+\author{Qingkai Dong\\
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\doublespacing
+
+\section{Discussions}
+
+\subsection{Problem Description}
+
+In the design phase, we predetermine the number of events $n_{F}$ for the final
+analysis and plan to perform the interim analysis when $n_{I}$ events are
+observed. Define information fraction as $t=n_{I}/n_{F}$ and incremental sample
+size $\tilde{n}_{F}=n_{F}-n_{I}$.  Given the interim data, we want to calculate
+the Conditional Power(CP) for the final analysis, which depends on the value of
+the interim analysis statistic $Z_{I}$, the sample size $n_{I}$ and $n_{F}$, the
+information fraction $t$ and the true effect $\theta$. Specifically,
+\citep{teng2020seamless} frames this problem under proportional hazards
+assumption.  Assume $h_{1}(t|X) = h_{0}(t) e^{X(-\theta)}$ where $X$ is the
+binary treatment variable. Assume time-to-event variable $Y \sim Exp(\lambda)$
+where $f_{Y}(y)=\lambda e^{-\lambda y}$, hazards function
+$h_{Y}(y)=\lambda$. Let $\lambda=e^{-X\theta}$. In this case, $h_{0}(t)=1$,
+$HR=\frac{\lambda_{(X=1)}}{\lambda_{(X=0)}}=e^{-\theta}$ and
+$\theta=-\log(HR)$. Thus, $HR < 1$ ($\theta > 0$) favors the treatment
+arm. Assume the estimate of treatment effect $\hat{\theta}$ is asymptotically
+normal: $\hat{\theta} \sim N(\theta, \frac{4}{n})$. It holds for $n=n_{I}$ and
+$\tilde{n}_{F}$.
+
+The two-side test is: $H_0: \theta=0$ vs. $H_1: \theta \neq 0$. The interim
+logrank test statistic $Z_{I} = \hat{\theta}_{I} / \sqrt{\frac{4}{n_{I}}}$. The
+increment test statistic is $\tilde{Z}_{F} = \tilde{\theta}_{F} /
+\sqrt{\frac{4}{n_{F}-n_{I}}}$ which is asymptotically normal $N(\theta /
+\sqrt{\frac{4}{n_{F}-n_{I}}}, 1)$. The
+final test statistic is $Z_{F} = \hat{\theta}_{I} / \sqrt{\frac{4}{n_{I}}} =
+\sqrt{t}Z_{I} + \sqrt{1-t}\tilde{Z}_{F}$.
+
+
+The unconditional power of the final analysis is
+$P(Z_{F}>Z_{1-\frac{\alpha_{F}}{2}}|\theta=\theta_{D})$ where $\theta_{D}$ is
+pre-specified at the design phase. The conditional power of the final analysis
+is $P(Z_{F}>Z_{1-\frac{\alpha_{F}}{2}} | Z_{I})$.
+
+\begin{align*} CP = P(Z_{F}>Z_{1-\frac{\alpha_{F}}{2}} | Z_{I}) &= P(\sqrt{t}Z_{I} +
+\sqrt{1-t}\tilde{Z}_{F}>Z_{1-\frac{\alpha_{F}}{2}} | Z_{I}) \\ 
+&= P\left(
+\tilde{Z}_{F} > \frac{Z_{1-\frac{\alpha_{F}}{2}} - \sqrt{t}\hat{\theta}_{I} /
+\sqrt{\frac{4}{n_{I}}}}{\sqrt{1-t}} \right) \\ &= 1 -\Phi\left(
+\frac{Z_{1-\frac{\alpha_{F}}{2}} - \sqrt{t}\hat{\theta}_{I} /
+\sqrt{\frac{4}{n_{I}}}}{\sqrt{1-t}} - \frac{\theta}{\sqrt{\frac{4}{n_{F}-n_{I}}}}\right). \\
+ \end{align*}
+By plugging in $\hat{\theta}_{I}$ to replace $\theta$, we have an estimate of CP
+$$\hat{CP} =  1 -\Phi\left(
+ \frac{Z_{1-\frac{\alpha_{F}}{2}}}{\sqrt{1-t}} -
+\frac{\sqrt{t}\hat{\theta}_{I}}{\sqrt{1-t}\sqrt{\frac{4}{n_{I}}}}
+-\frac{\hat{\theta}_{I}}{\sqrt{\frac{4}{n_{F}-n_{I}}}}\right).$$
+Then we have $$Z_{1-CP}=\frac{Z_{1-\frac{\alpha_{F}}{2}} -
+\sqrt{t}\hat{\theta}_{I} / \sqrt{\frac{4}{n_{I}}}}{\sqrt{1-t}} -
+\frac{\hat{\theta}_{I}}{\sqrt{\frac{4}{n_{F}-n_{I}}}}$$ and $$n_{F}^{new} =
+n_{I} + 4\left(\frac{Z_{1-\frac{\alpha_F}{2}}}{\sqrt{1-t}} -
+\frac{\sqrt{t}\sqrt{n_{I}}}{2\sqrt{1-t}}\hat{\theta}_{I} - Z_{1-CP}\right) /
+\hat{\theta}_{I}^2.$$
+
+Here the interim analysis statistic $Z_{I}$ and the information fraction $t$
+are considered fixed. In this case, given an estimate of the true
+effect $\hat{\theta}$, we can make decisions based on the value of CP:
+fail, increase the the sample size and continue the trial, keep the
+sample size and continue the trial or success. In this way, giving an
+inaccurate estimate of the true effect will lead to wrong interim
+decisions.
+
+Usually $\hat{\theta}$ is calculated based on $n_{I}$ data from the
+interim analysis and only treatment is considered as covariate. However, in addition to the event times and features
+of the $n_{I}$ observations that have already had events, we have the
+features of the $N-n_{I}$ observations that recruited but did not have
+events at interim analysis. $N$ is the number of recruitments. The
+problem is how to provide a $\hat{\theta}$ that makes CP more
+accurate.
+
+\subsection{Simulations}
+
+We illustrate the problem with a simple data setting and simulation. Denote the treatment effect as $\theta$. Following \citep{teng2020seamless}, assume $h_{1}(i)=h_{0}(i)e^{-\theta}$, that is, $\theta = -\log(HR)$. Assume time-to-event variable $Y \sim Exp(\lambda)$ where $f_{Y}(y)=\lambda e^{-\lambda y}$, hazards function $h_{Y}(y)=\lambda$. Let $\lambda=e^{-X\theta}$. In this case, $HR=\frac{\lambda_{(X=1)}}{\lambda_{(X=0)}}=e^{-\theta}$.
+
+Let $N=300$, $n_2 = 200$ and $n_1=100$. Let $\theta_{true}=0.4$. Define model 1 as an AFT model with only treatment variable as covariate. Suppose there are three other covariates $X_2$, $X_3$ and $X_4$ so that we fit model 2 with four covariates. We compute CP based on the formula in \citep{teng2020seamless} and take the mean of 1000 replicates. Here are the boxplots.
+
+Questions: 
+
+- In the clinical trial context, is fitting an AFT model a common way to estimate $\theta$?
+
+- By fitting AFT model, we have already considered informations from censored observations. What we can do further is to find a method that can optimize the estimation efficiency of $\theta$.
+\section{Review}
+
+Review \citep{qi2019predicting}.
+
+\subsection{Introduction}
+
+Phase 3 and Phase 2 may have divergent results. This is due to the
+biased prediction of Phase 3 results caused by multiple confounding
+eﬀects in Phase 2, inadequate model assumptions, and/or the population
+shift between Phase 2 and Phase 3.
+
+According to the results of a Phase 2 clinical trial, the treatment
+effects can be signiﬁcant. However, after a Phase 3 trial, people may
+found the eﬀect shrunk. This may be due to many reasons, such as
+population shift, change of endpoints, change of treatment regime,
+etc.. With the help of the proposed framework, the reason of
+inconsistent treatment eﬀects can be better examined.
+
+Pharmacokinetic concentrations, or PK concentrations, refer to the
+levels of a drug in the blood at various times after the drug has been
+administered. Traditional population PK (PopPK) models can provide
+accurate estimate to the average trough concentration for the whole
+population. The PK relationship can be heterogeneous, highly
+nonlinear, and impacted by many patient characteristics, so it is
+often challenging for traditional models to accurately capture the
+complex nonlinear relationship at subject level.
+
+This paper proposed to predict Phase 3 trial results by using Phase 2
+information and baseline characteristics of Phase 3
+patients. 
+
+\subsection{Data}
+
+The outcomes are patients’ responses to an investigational treatment
+measured by change from baseline of a physical function at Week
+16. Patients’ baseline characteristics pre-speciﬁed in the primary and
+exploratory analyses of Phase 2 are included as time-invariant
+predictors. Dose level and Ctrough of each patient in the Phase 2
+trial are time-variant predictors since they change week by week. We
+also have baseline characteristics of Phase 3 patients.
+
+\subsection{Models}
+
+The target is to predict ITE(individual treatment effect) for patients 
+in the Phase 3 when Phase 2 trial is finished. To achieve this, they 
+build two models.
+
+Ctrough model $\phi$ aims to predict the Ctrough(trough 
+concentrations) for Phase 3
+patients. Trained by using Phase 2 data. Trough refers to the lowest
+concentration of a drug in the bloodstream, typically measured just
+before the next dose is administered.
+
+ITE model $f$ aims to predict ITE by using Ctrough and baseline
+characteristics as input. It is trained using Phase 2 data.
+
+Notations are as follows. Denote $\{c^{(2)}_i,
+\tilde{x}^{(2)}_i\}_{i=1}^{k}$ as Phase 2 data, where $c^{(2)}_i$ is
+the sequence of observed Ctrough of the i-th patient,
+$\tilde{x}^{(2)}_i=\{x^{(2)}_i, d^{(2)}_i\}$, $x^{(2)}_i$ is the
+$p$-dimensional characteristics, $d^{(2)}_i$ is the sequence of dose
+levels assigned to the i-th patient. $k$ is the number of patients who
+have observed Ctrough.
+
+$\phi$ is a neural network model. The input of $\phi$ is
+$\{\tilde{x}^{(2)}_i\}_{i=1}^{k}$ and the output is
+$\{\hat{c}^{(2)}_i\}_{i=1}^{k}$. By training and validating Ctrough model
+$\hat{\phi}$ on $\{c^{(2)}_i, \tilde{x}^{(2)}_i\}_{i=1}^{k}$, they use
+it to predict $c^{(3)}_j$ by inputting $\tilde{x}^{(3)}_j$.
+
+Next they train and validate ITE model $f$ which is also a neural
+network. The training data is $\{y^{(2)}_i,
+\Bar{x}^{(2)}_i\}_{i=1}^{n}$ where $\Bar{x}^{(2)}_i = \{x^{(2)}_i,
+d^{(2)}_i, c^{(2)}_i\}$. For those patients without observed Ctrough,
+their $c^{(2)}_i$ will be imputed by $\hat{\phi}(x^{(2)}_i,
+d^{(2)}_i)$. $y^{(2)}_i$ is the $r$-dimensional response variable
+consisting of the $r$ endpoints of the i-th patient in Phase 2. Here
+they focus on one endpoint situation so that $y^{(2)}_i$ is a
+scalar. Apply $\hat{f}$ to Phase 3 data, they get the predicted
+response $\{\hat{y}^{(3)}_j\}_{j=1}^{m}$, that is, $\hat{y}^{(3)}_j =
+\hat{f}(\Bar{x}^{(3)}_j) = \hat{f}(\{x^{(3)}_j, d^{(3)}_j,
+\hat{c}^{(3)}_j\})$. The predicted response for patient who receives
+placebo is $\tilde{y}^{(3)}_j = \hat{f}(\{x^{(3)}_j, 0, 0\})$. The ITE
+for patient $j$ is $\hat{y}^{(3)}_j - \tilde{y}^{(3)}_j$ and the
+average treatment effect is $\sum_{i=1}^{m}(\hat{y}^{(3)}_j -
+\tilde{y}^{(3)}_j)/m$.
+
+The proposed recurrent neural network is
+\begin{align*}
+  s_{i0} &= \sigma(T x_i + c) \\
+  s_{it} &= \sigma(U
+           z_{it} + W s_{i,t-1} + b), \quad t=1,...,T_i. \\
+  \hat{y}_{it} &=
+                 \sigma(V s_{it} + a) + P s_{i0}, \quad t=1,...,T_i.\\
+\end{align*}
+For Ctrough model, $x_i = x^{(2)}_i$ and $z_{it} =
+d^{(2)}_{it}$. For ITE model, $x_i = x^{(2)}_i$ and $z_{it} =
+(d^{(2)}_{it}, c^{(2)}_{it})$. Specifically, at each time point $t$,
+we utilize information from current ($z_{it}$) and previous
+($s_{i,t-1}$) to predict the current response ($\hat{y}_{it}$).
+
+\subsection{Discussion}
+
+\begin{itemize}
+  \item The author didn't release code. They didn't mention the sample size.
+  \item Overfitting.
+  \item Inference.
+\end{itemize}
+
+\section{Simulations and ML+design Literature Review}
+
+Present a simulation. Review literature on clinical trial design with
+machine learning methods. 
+
+\subsection{Simulation}
+
+After meeting, we modify the description of the problem and conduct
+new simulations.
+
+In a clinical trial investigating whether treatment effects affect
+time-to-event endpoints, we perform log rank test at the final
+analysis using patients who have been observed events. For patients
+who are censored at the interim analysis, we can fit a model to
+predict their event times. In this way, at the interim analysis, we
+can perform the second log rank test for all patients by combining
+true event times for uncensored patients and predicted event times for
+censored patients.
+
+The following questions need to be answered. What data can we use to
+predict event times for censored individuals? Under what circumstances
+would the second log rank test be more powerful than the first? Can we
+combine predicted event times with true event times directly?
+
+The simulation settings are as follows.  Define $Y$ as the event time
+which comes from exponential distribution with mean $e^{X \beta}$. We
+enroll $N=300$ patients with seven covariates: treatment $\sim
+Bin(0.5)$ and other six. The interim time is the time when we observe
+$n_{int} = \frac{1}{3}N$ events. The final analysis time is when we
+observe $n_{fin} = \frac{2}{3}N$ events. The recruitment time follows
+$U(0,0.2)$.  We generate simulated data for 1000 times. Fix
+$\alpha=0.05$.
+
+The gray line is the power of using only $n_{int}$ patients at the
+interim analysis. The green line is the power of using $n_{fin}$
+patients at the final analysis. The blue line is the power of using
+$N$ patients (suppose we know their true event time). The red line is
+the power of using $n_{int}$ patients with true event time and
+$(N-n_{int})$ patients with predicted event time at the interim
+analysis.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{p1.png}
+\caption{Effect vs. Power}
+\label{fig:effect}
+\end{figure}
+
+\subsection{Literature Review}
+
+\citep{kavalci2023improving} used random forest and boosting method to
+predict early termination probability of clinical trials and to
+understand feature contributions driving this outcome. They use
+420,268 clinical trial records and 24 fields was extracted from the
+ct.gov registry.  \citep{schwager2021utilizing} designed a ML model
+for stratifying patients, ultimately reducing the required number of
+patients by increasing statistical power through cohort
+homogeneity. From the Philips eICU Research Institute (eRI) database,
+no less than 51,555 ARDS patients were extracted. As in the two papers
+above, there is also a lot of work that utilizes large dataset like
+electronic health records and genomic data to train machine learning
+models.
+
+\citep{romero2020statistical} proposed a deep learning model that
+estimated the contributions of individual patients to a study’s
+statistical power in epilepsy trials. They did simulations with around
+1000 patients.
+
+\citep{qi2019predicting} propose a framework to predict the Phase 3
+clinical trial results based on the Phase 2 clinical trial data. They
+proposed an individual treatment eﬀect model to model the relationship
+between patient baseline characteristics, Ctrough and clinical
+outcomes.
+
+\section{Neural Network + Survival model Literature Review}
+
+Summarize two papers \citep{katzman2018deepsurv} and
+\citep{hu2023conditional}. In particular, we read the code of
+\citep{hu2023conditional} and summarize the structure of their neural
+network.
+
+\subsection{Notations}
+
+For subject $i$, denote the time-varying covariate vector as
+$X_{i}(t)$, the failure time as $T_i$, the censoring time as $C_i$,
+observed time $Y_i=\min \left( T_i, C_i \right)$ and the censoring
+indicator $\Delta_i=I(T_i \leq C_i)$. We have $n$ i.i.d. observations
+$\{Y_i, \Delta_i, \tilde{X}_i(\cdot): i=1, \ldots, n\}$ where
+$\tilde{X}_i(t)=\left\{X_i(s), 0 \leq\right.$ $s \leq t\}$ denotes the
+covariate history up to time $t$.
+
+Let $f(t \mid \tilde{X}_i(\infty))$ and $f_{C}(t \mid
+\tilde{X}_i(\infty))$ be the conditional density function of $T_i$ and
+$C_i$, $S(t \mid \tilde{X}_i(\infty))$ and $S_{C}(t \mid
+\tilde{X}_i(\infty))$ be the conditional survival function of $T_i$
+and $C_i$.  Let the conditional hazard function of $T_i$ be $\lambda
+\left[t \mid \tilde{X}_i(\infty)\right]$. Assume the hazard only
+depends on the current values of the covariate, that is, $\lambda
+\left[t \mid \tilde{X}_i(\infty)\right] = \lambda \left[t \mid
+\tilde{X}_i(t)\right] = \lambda \left[t \mid X_i(t)\right]$. Define
+$h(t,X_i(t))=\log (\lambda (t \mid X_i(t)))$. The conditional survival
+function is given by
+
+\begin{equation} S\left[t \mid \widetilde{X}_i(\infty)\right]=S\left[t
+\mid \widetilde{X}_i(t)\right]=\exp \left\{-\int_0^t e^{h\left[s,
+X_i(s)\right]} d s\right\}
+\label{eq:survfunc}
+\end{equation}
+
+Assume censoring time is independent of failure time conditional on
+covariates. Then given the observed data $\{y_i, \delta_i, x_i(\cdot):
+i=1, \ldots, n\}$, the log likelihood function is
+
+\begin{equation} \ell_n=\sum_{i=1}^n\left\{h\left[y_i,
+x_i\left(y_i\right)\right] \delta_i - \int_0^{y_i} e^{h\left[t,
+x_i(t)\right]} d t\right\}.
+\label{eq:likelihood}
+\end{equation}
+
+Using $h$ instead of $\lambda$ removes the positivity constraint for
+$\lambda$, hence simpliﬁes the optimization algorithm for estimating
+(\ref{eq:likelihood}). Furthermore, (\ref{eq:survfunc}) is always a
+valid survival function for any function $h$.
+
+When ﬁtting a survival model with time-varying covariates, the data
+set is usually expanded and each row is treated as an
+observation. $(t_1, \ldots, t_n)$ are sorted values of $(y_1, \ldots,
+y_n)$ and $\delta_{ij} = \delta_{i} I(t_j = y_i)$.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cccccc}
+\hline
+$i$ & start time & stop time & $\delta_{ij}$ & covariates \\ 
+\hline
+1 & $t_0 = 0$ & $t_1$ & 0 & $x_1(t_1)$ \\
+1 & $t_1$ & $t_2$ & 0 & $x_1(t_2)$ \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+1 & $\dots$ & $y_1$ & $\delta_1$ & $x_1(y_1)$ \\
+2 & $t_0 = 0$ & $t_1$ & 0 & $x_2(t_1)$ \\
+2 & $t_1$ & $t_2$ & 0 & $x_2(t_2)$ \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+2 & $\dots$ & $y_2$ & $\delta_2$ & $x_2(y_2)$ \\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+\hline
+\end{tabular}
+\caption{New Data Structure}
+\label{tab:label1}
+\end{table}
+
+Now maximizing the log likelihood function (\ref{eq:likelihood}) is
+equivalent to minimizing the following loss function
+
+$$L(h)=\frac{1}{n} \sum_{i=1}^n \sum_{j=1}^n I\left(t_j \leq y_i\right)\left\{e^{h\left[t_j, x_i\left(t_j\right)\right]}\left(t_j-t_{j-1}\right)-h\left[t_j, x_i\left(t_j\right)\right] \delta_{i j}\right\}.$$
+Once $\hat{h}$ is obtained using neural networks, the conditional
+survival curve can be estimated by plugging $\hat{h}$ into
+(\ref{eq:survfunc}).
+
+\subsection{Neural Networks}
+
+Now we discuss how the neural network works. In this paper, the
+network has two hidden layers($l=1,2$) and one output
+layer($l=3$). The structure is
+
+\begin{align*} a^{(1)} &= \sigma(W^{(1)} X + b^{(1)}) \\ a^{(2)} &=
+\sigma(W^{(2)} a^{(1)} + b^{(2)}) \\ a^{(3)} &= W^{(3)} a^{(2)} +
+b^{(3)} = h \\
+\end{align*} where $X$ is the input features vector,
+$\sigma(z)=\max(0,z)$ is the ReLU activation function. The output
+layer has a linear activation function.  $W$ and $b$ are parameters to
+be trained, but the dimensions of $W$ and $b$ (hidden layers nodes)
+are hyperparameters. For example, if the dimension of features vector
+is $5$ and hidden layers nodes is chosen to be $64$, then the
+dimension of $W^{(1)}$ is $64 \times 5$ and $b^{(1)}$ is $64$,
+$W^{(2)}$ is $64 \times 64$ and $b^{(1)}$ is $64$, $W^{(3)}$ is $1
+\times 64$ and $b^{(3)}$ is $1$. There are $4609$ parameters to be
+trained. Denote all the parameters to be trained as $\theta$. Then
+$L(h)$ is actually $L(\theta)$.
+
+Next we compute the gradient of the loss function with respect to each
+parameter. The Python deep learning platform can automatically compute
+the gradient based on a customized loss function. After calculating
+the gradients, we update the parameters in the direction that reduces
+the loss.
+$$\theta_{1} = \theta_{0} - \alpha \cdot \nabla_\theta L$$
+where $\alpha$ is called the learning rate, $\nabla_\theta L$ is the
+gradient of the loss function $L$ with respect to $\theta$. This is
+done using an optimization algorithm(optimizer) like Stochastic
+Gradient Descent (SGD) or Adaptive Moment Estimation (Adam).
+
+However, when we train a neural network with a deep learning framework
+in Python, the loss function for a neural network model typically
+requires at least two arguments: the true value (ground truth) and the
+output from the neural network. What we're doing is fitting a function
+with no true value. In their code, they take $\delta_{ij}$ to be the
+true value and define the loss function in this way:
+
+$$L(h)=\frac{1}{n} \sum_{i=1}^n \left\{ \sum_{j:{t_j \leq y_i}} \left\{e^{h\left[x_i\left(t_j\right)\right]}\Delta(t_j)-h\left[x_i\left(t_j\right)\right] \delta_{i j}\right\} \right\}.$$
+
+The paper mentioned that 'The input of neural networks is $\left[
+t_{j-1}, t_j, x_i(t_j)\right]$'. More precisely, $t_{j-1}$ and $t_j$
+are used to compute $\Delta(t_j)$ in the loss and $x_i(t_j)$ are used
+in the neural network.
+
+Dividing the full data into batches is another important trick in
+neural network training. Recall that $L(h)=\frac{1}{n} \sum_{i=1}^n
+L_{i}(\theta)$ and $\theta_{1} = \theta_{0} - \alpha \cdot
+\sum_{i=1}^n \nabla_\theta L_i$. To economize on the computational
+cost when $n$ is large, we divide the full data into $\{B_1, ...,
+B_k\}$. We update $\theta$ based on the gradient sum over $B_1$, then
+update $\theta$ based on the gradient sum over $B_2$ and so on. If go
+through the full data is called an epoch, we now divide an epoch into
+k iterations. Usually the data size is the same for each batch.
+
+\subsection{Simulation and Application}
+
+Simulation results show that that when the Cox model is correctly
+speciﬁed, both the partial likelihood method and the proposed neural
+networks method perform well. When the Cox model is misspeciﬁed, the
+partial likelihood method yields severe biases, whereas the proposed
+neural network method still works well with a similar performance.
+
+They use four real-world data sets with sample sizes of a few thousand
+and the covariate numbers range from 7 to 14. The covariates in these
+data sets are all time independent.
+
+A common criterion is the C-index which estimates the probability that
+the predicted survival times of two comparable individuals have the
+same ordering as their true survival times.
+
+$$
+\text { C-index }=P\left[\hat{S}\left(T_i \mid
+x_i\right)<\hat{S}\left(T_i \mid x_j\right) \mid T_i<T_j,
+\Delta_i=1\right].
+$$
+
+\subsection{Discussion}
+
+\begin{itemize}
+  \item This paper is only for low dimensional inputs. If the
+dimension is larger than the sample size, it may be necessary to use
+regularization methods.
+  \item The data expansion would increase the eﬀective sample size
+from $n$ to $n^2$.
+  \item These neural network survival models are predicting hazard
+functions or survival functions. they don't predict survival time
+directly.
+\end{itemize}
+
+
+\section{Sample Size Re-estimation Literature Review}
+
+Summarize a review paper \citep{Liu2021review}'Sample size
+re-estimation for pivotal clinical trials'.
+
+\subsection{Notations}
+
+At the design stage, we set the total number of patients as
+$n_2$. They are randomized with 1:1 ratio to receive treatment or
+control.
+
+Denote observations as $X_{ij}$, $i=R,C$ and $j=1,...,n_{2}/2$. Assume
+$X_{ij} \sim N(\mu_{i}, \sigma^{2})$.
+
+Define the true treatment effect as $\theta=\mu_R-\mu_C$. The null
+hypothesis is $H_0 = \theta \leq 0$ vs. $H_a = \theta > 0$.
+
+At final analysis(FA), the final test statistic is $Z_2 =
+\frac{\hat{\theta}_2}{\sqrt{4\sigma^2/n_2}}$, where $\hat{\theta}_2 =
+\frac{\sum_{j=1}^{n_2/2} X_{Rj}}{n_2/2} - \frac{\sum_{j=1}^{n_2/2}
+X_{Cj}}{n_2/2}$ and $\hat{\theta}_2 \sim N(\theta,
+\frac{4\sigma^2}{n_2})$. We need to determine sample size $n_2$ at the
+design stage. Given the one-side Type 1 error $\alpha$, power
+$1-\beta$ and the assumed treatment effect $\theta_d$, we can
+calculate the total sample size as follows:
+
+$$n_2=4\sigma^2(\frac{z_{\alpha}+z_{\beta}}{\theta_d})^2,$$
+where $z_{\alpha} = \Phi^{-1}(1 - \alpha)$. It comes from
+$\frac{\theta_d}{\sqrt{4\sigma^2/n_2}}=z_{\alpha}+z_{\beta}$.
+
+Interim analysis is conducted when we obtain $n_1$ samples. Define
+information fraction as $t=n_1/n_2$. At interim analysis, we have
+interim test statistic $Z_1 =
+\frac{\hat{\theta}_1}{\sqrt{4\sigma^2/n_1}}$ where $\hat{\theta}_1 =
+\frac{\sum_{j=1}^{n_1/2} X_{Rj}}{n_1/2} - \frac{\sum_{j=1}^{n_1/2}
+X_{Cj}}{n_1/2}$ and $\hat{\theta}_1 \sim N(\theta,
+\frac{4\sigma^2}{n_1})$.
+
+Define incremental sample size $\tilde{n}_2=n_2-n_1$. Incremental test
+statistic is $\tilde{Z}_2 =
+\frac{\hat{\tilde{\theta}}_2}{\sqrt{4\sigma^2/\tilde{n}_2}}$ where
+$\hat{\tilde{\theta}}_2 = \frac{\sum_{j=(n_1/2)+1}^{n_2/2}
+X_{Rj}}{\tilde{n}_2/2} - \frac{\sum_{j=(n_1/2)+1}^{n_2/2}
+X_{Cj}}{\tilde{n}_2/2}$ and $\hat{\tilde{\theta}}_2 \sim N(\theta,
+\frac{4\sigma^2}{\tilde{n}_2})$. $Z_2$ can be represented by $Z_1$ and
+$\tilde{Z}_2$
+
+$$Z_2 = \sqrt{t}Z_1 + \sqrt{1-t}\tilde{Z}_2.$$
+
+After sample size re-etimation(SSR), we have the adapted total sample
+size as $n_{2}^{*}$ and incremental sample size
+$\tilde{n}_{2}^{*}$. Similarly, define $\tilde{Z}_{2}^{*} =
+\frac{\hat{\tilde{\theta}}_{2}^{*}}{\sqrt{4\sigma^2/\tilde{n}_{2}^{*}}}$
+where $\hat{\tilde{\theta}}_{2}^{*} =
+\frac{\sum_{j=(n_1/2)+1}^{n_{2}^{*}/2} X_{Rj}}{\tilde{n}_{2}^{*}/2} -
+\frac{\sum_{j=(n_1/2)+1}^{n_{2}^{*}/2}
+X_{Cj}}{\tilde{n}_{2}^{*}/2}$. Then $Z_{2}^{*}$ can be represented by
+$Z_1$ and $\tilde{Z}_{2}^{*}$ as $Z_{2}^{*} =
+\sqrt{\frac{n_1}{n_{2}^{*}}}Z_1 +
+\sqrt{1-\frac{n_1}{n_{2}^{*}}}\tilde{Z}_{2}^{*}$.
+
+One problem of conventional final analysis is that if the rejection
+rule for $H_0$ at FA is left unchanged, i.e. $Z_{2}^{*}>z_{\alpha}$,
+the Type I error rate can be inflated,
+i.e.$P_{H_0}(Z_{2}^{*}>z_{\alpha})>\alpha$. Many methods have been
+proposed to control the Type I error and will be mentioned in Section
+2.4. For example, a popular method is replace $Z_{2}^{*}$ by
+$Z_{2,chw}^{*} = \sqrt{\frac{n_1}{n_{2}}}Z_1 +
+\sqrt{\frac{\tilde{n}_2}{n_2}}\tilde{Z}_{2}^{*}$. In this way,
+$P_{H_0}(Z_{2,chw}^{*}>z_{\alpha})=\alpha$.
+
+
+\subsection{Conditional power}
+
+Next we define conditional power(CP, probability of rejecting null
+hypothesis at final analysis given the interim test statistic
+$Z_1=z_1$). It is defined as
+
+\begin{align*} CP(\theta, z_1, n_2, t) &= P_{\theta}(Z_2 > z_{\alpha}
+| Z_1 = z_1) \\ &= P_{\theta}\left(\sqrt{\frac{n_1}{n_2}} z_1 +
+\sqrt{\frac{\tilde{n}_2}{n_2}} \tilde{Z}_2 > z_{\alpha}\right) \\ &=
+P\left(\frac{\hat{\tilde{\theta}}_2 - \theta}{\sqrt{4\sigma^2 /
+\tilde{n}_2}} > \sqrt{\frac{\tilde{n}_2}{n_2}} z_{\alpha} -
+\sqrt{\frac{n_1}{\tilde{n}_2}} z_1 - \frac{\theta}{\sqrt{4\sigma^2 /
+\tilde{n}_2}}\right) \\ &= 1 -
+\Phi\left(\sqrt{\frac{\tilde{n}_2}{n_2}} z_{\alpha} -
+\sqrt{\frac{n_1}{\tilde{n}_2}} z_1 - \frac{\theta}{\sqrt{4\sigma^2 /
+\tilde{n}_2}}\right) \\ &= \Phi\left(\frac{\theta
+\sqrt{n_2(1-t)}}{2\sigma} - \frac{z_{\alpha} - z_1
+\sqrt{t}}{\sqrt{1-t}}\right).
+\end{align*}
+
+Since $\theta$ is unknown, we can replace it with the assumption
+treatment effect at the design stage $\theta_d$ or the interim
+observed treatment effect estimator $\hat{\theta}_1$.
+
+When using $\hat{\theta}_1$, $CP(\hat{\theta}_1, z_1, n_2,
+t)=\Phi\left( \frac{z_1}{\sqrt{t(1-t)}} -
+\frac{z_{\alpha}}{\sqrt{1-t}}\right)$. When using $\theta_d$,
+$CP(\theta_d, z_1, n_2, t)=\Phi\left( \frac{\theta_d
+\sqrt{n_2(1-t)}}{2\sigma} - \frac{z_{\alpha}-z_1
+\sqrt{t}}{\sqrt{1-t}}\right)$.
+
+\subsection{Sample size adaptation rule}
+
+The goal of the interim analysis is to determine the new sample size
+for the trial $n_{2}^{*}$. Typically $n_{2}^{*}$ should be larger than
+$n_2$ and threshold by a maximum value $n_{max}$. A basic idea is to
+keep $CP(\theta, z_1, n_{2}^{*}, t)=P_{\theta}(Z_{2}^{*} > z_{\alpha}
+| Z_1 = z_1)$ at $1-\beta$ when the interim result is promising.
+
+
+Now we refer to (Mehta, 2010) to introduce how to determine promising
+zone based on $CP(\theta, z_1, n_{2}^{*}, t)$.
+
+There are many other methods to determine $n_{2}^{*}$. See section 2.3
+in \citep{Liu2021review}.
+
+
+
+
+
+\bibliographystyle{mcap}
+
+\bibliography{refs}
+
+\end{document}
