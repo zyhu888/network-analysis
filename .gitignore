@@ -33,7 +33,6 @@ code/*.m
 code/*.mexw64
 
 .Rhistory
-minutes.pdf
 
 .DS_Store
 # about manuscript
