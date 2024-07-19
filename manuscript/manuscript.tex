@@ -1,0 +1,134 @@
+\documentclass[titlepage, 12pt]{article}
+
+% \usepackage[utf8]{inputenc} %unicode support
+% \usepackage[applemac]{inputenc} %applemac support if unicode 
+%%package fails
+% \usepackage[latin1]{inputenc} %UNIX support if unicode package 
+%%fails
+
+\usepackage{authblk}
+\usepackage[margin=1in]{geometry}
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{amsbsy, amsfonts, amsmath, amssymb}
+
+% The bbm package, which you might want to use to write blackboard 
+%bold numbers,
+% is a source of Type 3 fonts. Try the dsfont package instead
+\usepackage{dsfont}
+
+% \usepackage{bm, bbm}
+
+\usepackage{bm}
+\newcommand{\mathbm}{\mathbf}
+\newcommand{\mathbbm}{\mathbf}
+
+\usepackage{booktabs, longtable}
+\usepackage{setspace}
+
+\usepackage{natbib}
+
+\usepackage{color}
+\usepackage{xcolor}
+
+\usepackage{graphicx}
+\graphicspath{{./}{../../figures/}}
+
+\usepackage[colorlinks=true, citecolor=blue]{hyperref}
+
+% control floats
+\renewcommand\floatpagefraction{.9}
+\renewcommand\topfraction{.9}
+\renewcommand\bottomfraction{.9}
+\renewcommand\textfraction{.1}
+\setcounter{totalnumber}{50}
+\setcounter{topnumber}{50}
+\setcounter{bottomnumber}{50}
+
+\usepackage[pagewise]{lineno}
+\linenumbers*[1]
+
+
+% %% patches to make lineno work better with amsmath
+\newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+	\expandafter\let\csname old#1\expandafter\endcsname\csname 
+	#1\endcsname
+	\expandafter\let\csname oldend#1\expandafter\endcsname\csname 
+	end#1\endcsname
+	\renewenvironment{#1}%
+	{\linenomath\csname old#1\endcsname}%
+	{\csname oldend#1\endcsname\endlinenomath}}%
+\newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+	\patchAmsMathEnvironmentForLineno{#1}%
+	\patchAmsMathEnvironmentForLineno{#1*}}%
+
+\AtBeginDocument{%
+	\patchBothAmsMathEnvironmentsForLineno{equation}%
+	\patchBothAmsMathEnvironmentsForLineno{align}%
+	\patchBothAmsMathEnvironmentsForLineno{flalign}%
+	\patchBothAmsMathEnvironmentsForLineno{alignat}%
+	\patchBothAmsMathEnvironmentsForLineno{gather}%
+	\patchBothAmsMathEnvironmentsForLineno{multline}%
+}
+
+\allowdisplaybreaks
+
+% consistent with R manual
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}}
+\let\proglang=\textsf
+\let\code=\texttt
+
+% comments
+\newcommand{\jy}[1]{\textcolor{red}{(JY: #1)}}
+\newcommand{\pz}[1]{\textcolor{purple}{(PZ: #1)}}
+
+\begin{document}
+	
+	\title{Statistical Analysis of the Otolaryngologist 
+	Collaboration Network in the United States}
+	
+	\author[1]{Zeyu Hu}
+	\author[1]{Jun Yan}
+	\affil[1]{Department of Statistics, University of Connecticut, 
+	Storrs, CT 06269, U.S.A.}
+	
+	\author[2]{Panpan Zhang}
+	\affil[2]{Department of Biostatistics, Vanderbilt University 
+	Medical Center, Nashville, TN 37023, U.S.A.}
+		
+	\maketitle
+	
+	\begin{abstract}
+		This is abstract.
+		
+		\bigskip
+		\noindent%
+		{\it Keywords:\/} Social Network
+		
+	\end{abstract}
+	
+	\doublespacing
+	
+	\section{Introduction}
+	\label{sec:intr}
+	
+	\section{Otolaryngoloist Collaboration Network}
+	\label{sec:otonet}
+	
+	\section{Assortativity}
+	\label{sec:assort}
+	
+\bibliographystyle{chicago}
+\bibliography{../refs}
+	
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% ispell-personal-dictionary: ".aspell.en.pws"
+%%% fill-column: 70
+%%% eval: (auto-fill-mode 1)
+%%% End:
+% LocalWords: Assortativity 
