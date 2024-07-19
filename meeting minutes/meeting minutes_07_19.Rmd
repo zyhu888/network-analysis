@@ -16,7 +16,7 @@ output: html_document
 |------|---------------------|
 | Task 1 | Modify the code, including modifying the data reading path and simplifying the function. |
 | Task 2 | Create utility.R and put all own functions into this file. |
-| Task 3 | Add "library()" before function. |
+| Task 3 | Add the libraries where the existing functions are imported from. |
 | Task 4 | Try improve the jack knife efficiency. Previously, I converted all the data into a network and then deleted the edges one by one in the network. I will try delete each row in the data table one by one and then convert the network to see if it can improve the running speed. |
 | Task 5 | Calculate the assortativity within different stratifications: focusing on institution and specialty to see if there is a difference with the overall network. |
 
