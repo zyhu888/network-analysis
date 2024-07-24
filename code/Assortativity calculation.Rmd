@@ -1,6 +1,17 @@
+---
+title: "Assortativity calculation"
+author: "Zeyu Hu"
+date: "2024-07-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
 library(igraph)
 library(wdnet)
+```
 
+## read and convert data 
+```{r}
 # Read data
 edges <- read.csv("/Users/huzeyu/Desktop/network analysis/raw data/Edges_Weighted.csv")
 
@@ -15,17 +26,18 @@ adj_matrix <- as_adjacency_matrix(g, attr = "weight", sparse = FALSE)
 
 # Create data array for analysis
 hospital_data <- array(adj_matrix, dim = c(nrow(adj_matrix), ncol(adj_matrix), 1))
+```
 
-gen_assort <- function(data) {
-  # Calculate weighted assortativity
-  assortativity <- apply(data, 3, function(M) {
-    wdnet::assortcoef(adj = M, directed = FALSE)
-  })
-  return(assortativity)
-}
-
-# Calculate the original assortativity
+## calculate assortativity
+```{r echo=FALSE}
 original_assortativity <- gen_assort(data = hospital_data)
+cat("The original assortativity coefficient is:", original_assortativity, "\n")
+```
+
+## calculate CI for assortativity by jackknife
+```{r echo=FALSE}
+# Start the timer
+start_time <- Sys.time()
 
 # Jackknife resampling
 jackknife_assortativities <- numeric(length = nrow(edges))
@@ -46,6 +58,15 @@ for (i in 1:nrow(edges)) {
   jackknife_assortativities[i] <- gen_assort(data = hospital_data_jackknife)
 }
 
+# Save assortativities for each time in a vector
+assortativities_saved_each_delete <- jackknife_assortativities
+
+# End the timer
+end_time <- Sys.time()
+
+# Calculate the total time taken
+total_time <- end_time - start_time
+
 # Calculate the Jackknife estimate of the mean assortativity
 jackknife_mean <- mean(jackknife_assortativities)
 
@@ -54,11 +75,13 @@ jackknife_se <- sqrt(((nrow(edges) - 1) / nrow(edges)) *
                        sum((jackknife_assortativities - jackknife_mean)^2))
 
 # Calculate the 95% confidence interval
-ci_lower <- original_assortativity - 1.96 * jackknife_se
-ci_upper <- original_assortativity + 1.96 * jackknife_se
+ci_lower <- jackknife_mean - 1.96 * jackknife_se
+ci_upper <- jackknife_mean + 1.96 * jackknife_se
 
 # Print results
 cat("Original Assortativity:", original_assortativity, "\n")
 cat("Jackknife Mean:", jackknife_mean, "\n")
 cat("Jackknife Standard Error:", jackknife_se, "\n")
 cat("95% Confidence Interval: [", ci_lower, ", ", ci_upper, "]\n")
+cat("Total time taken for the for loop:", total_time, "seconds\n")
+```
