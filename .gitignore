@@ -19,9 +19,7 @@ manuscript/*.pdf
 */*.ttt
 */*.fdb_latexmk
 */*.fls
-
-# about reference
-reference/*.pdf
+*/*.html
 
 # about data
 data/*.xlsx
@@ -35,7 +33,3 @@ code/*.mexw64
 .Rhistory
 
 .DS_Store
-# about manuscript
-**/*.aux
-**/*.log
-**/*.synctex.gz
