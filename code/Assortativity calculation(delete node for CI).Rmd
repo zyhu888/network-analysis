@@ -1,19 +1,21 @@
 ---
-title: "Assortativity calculation"
+title: "Assortativity calculation(CI based on delete each node)"
 author: "Zeyu Hu"
-date: "2024-07-24"
+date: "2024-07-25"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 library(igraph)
 library(wdnet)
+# source function in "utility.R" to calculate assortativity
+source("/Users/huzeyu/Desktop/network analysis/repo/network-analysis/code/utility.R")
 ```
 
 ## read and convert data 
 ```{r}
 # Read data
-edges <- read.csv("/Users/huzeyu/Desktop/network analysis/raw data/Edges_Weighted.csv")
+edges <- read.csv("/Users/huzeyu/Desktop/network analysis/repo/network-analysis/data/Edges_Weighted.csv")
 
 # Create graph object
 g <- graph_from_data_frame(d = edges, directed = FALSE)
@@ -36,15 +38,12 @@ cat("The original assortativity coefficient is:", original_assortativity, "\n")
 
 ## calculate CI for assortativity by jackknife
 ```{r echo=FALSE}
-# Start the timer
-start_time <- Sys.time()
-
 # Jackknife resampling
-jackknife_assortativities <- numeric(length = nrow(edges))
+jackknife_assortativities <- numeric(length = vcount(g))
 
-for (i in 1:nrow(edges)) {
-  # Create a new graph by removing the i-th edge
-  g_jackknife <- delete_edges(g, E(g)[i])
+for (i in 1:vcount(g)) {
+  # Create a new graph by removing the i-th node
+  g_jackknife <- delete_vertices(g, V(g)[i])
   
   # Convert the new graph to a weighted adjacency matrix
   adj_matrix_jackknife <- get.adjacency(g_jackknife, attr = "weight", sparse = FALSE)
@@ -61,17 +60,11 @@ for (i in 1:nrow(edges)) {
 # Save assortativities for each time in a vector
 assortativities_saved_each_delete <- jackknife_assortativities
 
-# End the timer
-end_time <- Sys.time()
-
-# Calculate the total time taken
-total_time <- end_time - start_time
-
 # Calculate the Jackknife estimate of the mean assortativity
 jackknife_mean <- mean(jackknife_assortativities)
 
 # Calculate the Jackknife standard error
-jackknife_se <- sqrt(((nrow(edges) - 1) / nrow(edges)) * 
+jackknife_se <- sqrt(((vcount(g) - 1) / vcount(g)) * 
                        sum((jackknife_assortativities - jackknife_mean)^2))
 
 # Calculate the 95% confidence interval
@@ -79,9 +72,13 @@ ci_lower <- jackknife_mean - 1.96 * jackknife_se
 ci_upper <- jackknife_mean + 1.96 * jackknife_se
 
 # Print results
-cat("Original Assortativity:", original_assortativity, "\n")
 cat("Jackknife Mean:", jackknife_mean, "\n")
 cat("Jackknife Standard Error:", jackknife_se, "\n")
 cat("95% Confidence Interval: [", ci_lower, ", ", ci_upper, "]\n")
-cat("Total time taken for the for loop:", total_time, "seconds\n")
 ```
+
+This code takes about 40 minutes to run, so I show the result below:
+Original Assortativity: 0.4221628 
+Jackknife Mean: 0.4221878 
+Jackknife Standard Error: 0.05636901 
+95% Confidence Interval: [ 0.3117045 ,  0.532671 ]
