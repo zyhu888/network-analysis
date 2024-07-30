@@ -1,0 +1,77 @@
+\documentclass[12pt]{article}
+
+%% preamble: Keep it clean; only include those you need
+\usepackage{amsmath}
+\usepackage[margin = 1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{natbib}
+
+%% for double spacing
+\usepackage{setspace}
+
+% for space filling
+\usepackage{lipsum}
+% highlighting hyper links
+\usepackage[colorlinks=true, citecolor=blue]{hyperref}
+
+\usepackage{indentfirst}
+
+%% meta data
+
+\title{Literature Review}
+\author{Zeyu Hu\\
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\doublespacing
+
+\section{Literature Review}
+Understanding collaboration networks in scientific research is crucial for advancing knowledge and fostering innovation. In the field of public health, the study of collaboration patterns can reveal important insights into how research is conducted, how knowledge is disseminated, and how professional relationships influence scientific outcomes. 
+\section{Assortativity}
+\subsection{Overall Network Assortativity}
+
+The assortativity of a network measures the tendency of nodes to connect with similar nodes. For our collaboration network of otolaryngologists in the United States, the overall assortativity coefficient was calculated to be 0.42. This positive value indicates a moderate tendency for otolaryngologists to collaborate with others who have similar attributes. The calculation of assortativity was performed using the wdnet package, as detailed in \citep{yuan2021assortativity} and \citep{yuan2023generating}
+
+
+To assess the robustness of this result, according to \citep{pigorsch2022assortative}, we employed the jack-knife method, which involves sequentially removing each vertex from the network and recalculating the assortativity coefficient. This resampling technique provided a 95\% confidence interval for the assortativity coefficient, ranging from 0.32 to 0.53. This interval suggests that the network's assortativity is significantly different from zero, reinforcing the presence of assortative mixing in our network. 
+\subsection{Subnet Analysis by Institution}
+
+To delve deeper into the network’s structure, we were particularly interested in analyzing specific subsets of the overall network. We decided to use institutions as a criterion for this subset analysis, focusing on the top five institutions by the number of otolaryngologists. For each institution, we studied the assortativity of the subgraph consisting of all nodes belonging to that institution to understand the collaboration patterns among otolaryngologists within the same institution. The assortativity coefficients for these institutions were as follows:
+
+\begin{itemize}
+    \item \textbf{Icahn School of Medicine at Mount Sinai/New York Eye and Ear Infirmary at Mount Sinai}: 0.11
+    \item \textbf{Vanderbilt University Medical Center}: 0.23
+    \item \textbf{Montefiore Medical Center/Albert Einstein College of Medicine}: 0.48
+    \item \textbf{University of Michigan Health System}: 0.33
+    \item \textbf{University of Southern California/LAC+USC Medical Center}: 0.18
+\end{itemize}
+
+These results indicate varying degrees of assortativity across different institutions. For instance, Montefiore Medical Center/Albert Einstein College of Medicine showed the highest assortativity coefficient (0.48), suggesting a stronger tendency for otolaryngologists within this institution to collaborate with each other. In contrast, the Icahn School of Medicine at Mount Sinai/New York Eye and Ear Infirmary at Mount Sinai exhibited a lower assortativity coefficient (0.11), indicating a more diverse pattern of collaborations within the institution.
+
+\subsection{Subnet Analysis by Specialty}
+
+In addition to institutional analysis, we also focused on the subnetwork by specialty, recognizing that collaborations might differ significantly based on specific fields within otolaryngology. By examining the top five most represented specialties, we aimed to understand how specialty influences collaboration patterns. The assortativity coefficients for these subnets were:
+
+\begin{itemize}
+    \item \textbf{Head \& Neck}: 0.47
+    \item \textbf{Pediatric}: 0.28
+    \item \textbf{General}: 0.65
+    \item \textbf{Neurotology}: 0.40
+    \item \textbf{Facial Plastics}: 0.56
+\end{itemize}
+
+The highest assortativity coefficient was observed for the General specialty (0.65), indicating a strong tendency for general otolaryngologists to collaborate with each other. This high value suggests that otolaryngologists within the General specialty frequently form collaborations within their group, possibly due to shared research interests and goals. Conversely, the Pediatric specialty had the lowest assortativity coefficient (0.28) among the top five specialties, suggesting more diverse collaborations within this group. This lower value indicates that Pediatric otolaryngologists are more likely to collaborate outside their immediate specialty, reflecting a broader range of interactions and interdisciplinary work.
+
+
+\bibliographystyle{mcap}
+
+\bibliography{refs}
+
+\end{document}

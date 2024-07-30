@@ -16,6 +16,7 @@ source("/Users/huzeyu/Desktop/network analysis/repo/network-analysis/code/utilit
 ```{r echo=FALSE}
 edges <- read.csv("/Users/huzeyu/Desktop/network analysis/raw data/Edges_Weighted.csv")
 nodes <- read.csv("/Users/huzeyu/Desktop/network analysis/raw data/Nodes.csv")
+nodes$Specialty <- trimws(nodes$Specialty)
 # Calculate the top 5 most frequent institutions
 top_institutions <- nodes %>%
   count(Institution, sort = TRUE) %>%

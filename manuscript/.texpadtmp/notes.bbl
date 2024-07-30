@@ -1,0 +1,20 @@
+\begin{thebibliography}{3}
+\newcommand{\enquote}[1]{``#1''}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Pigorsch and Sabek(2022)}]{pigorsch2022assortative}
+U.~Pigorsch and M.~Sabek (2022).
+\newblock \enquote{Assortative mixing in weighted directed networks.}
+\newblock {\em Physica A: Statistical Mechanics and its Applications\/} {\bf 604}, 127850.
+
+\bibitem[{Yuan et~al.(2023)Yuan, Wang, Yan and Zhang}]{yuan2023generating}
+Y.~Yuan, T.~Wang, J.~Yan and P.~Zhang (2023).
+\newblock \enquote{Generating general preferential attachment networks with r package wdnet.}
+\newblock {\em arXiv preprint arXiv:2301.13730\/} .
+
+\bibitem[{Yuan et~al.(2021)Yuan, Yan and Zhang}]{yuan2021assortativity}
+Y.~Yuan, J.~Yan and P.~Zhang (2021).
+\newblock \enquote{Assortativity measures for weighted and directed networks.}
+\newblock {\em Journal of Complex Networks\/} {\bf 9}, cnab017.
+
+\end{thebibliography}
