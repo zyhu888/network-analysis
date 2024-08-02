@@ -1,7 +1,7 @@
 ---
-title: "Assortativity calculation(CI based on delete each node)"
+title: "Assortativity(CI) & Efficiency"
 author: "Zeyu Hu"
-date: "2024-07-25"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -13,7 +13,7 @@ source("/Users/huzeyu/Desktop/network analysis/repo/network-analysis/code/utilit
 ```
 
 ## read and convert data 
-```{r}
+```{r include=FALSE}
 # Read data
 edges <- read.csv("/Users/huzeyu/Desktop/network analysis/repo/network-analysis/data/Edges_Weighted.csv")
 
@@ -82,3 +82,70 @@ Original Assortativity: 0.4221628
 Jackknife Mean: 0.4221878 
 Jackknife Standard Error: 0.05636901 
 95% Confidence Interval: [ 0.3117045 ,  0.532671 ]
+
+## Read the nodes data select the top 5 institutions and specialties
+```{r echo=FALSE}
+nodes <- read.csv("/Users/huzeyu/Desktop/network analysis/raw data/Nodes.csv")
+nodes$Specialty <- trimws(nodes$Specialty)
+# Calculate the top 5 most frequent institutions
+top_institutions <- nodes %>%
+  count(Institution, sort = TRUE) %>%
+  top_n(5, n)
+
+# Calculate the top 5 most frequent specialties
+top_specialties <- nodes %>%
+  count(Specialty, sort = TRUE) %>%
+  top_n(5, n)
+
+# Print results
+cat("Top 5 Institutions:\n", paste(top_institutions$Institution, top_institutions$n, sep = ":", collapse = "\n"), "\n")
+cat("Top 5 Specialties:\n", paste(top_specialties$Specialty, top_specialties$n, sep = ": ", collapse = "\n"), "\n")
+```
+
+## Calculate the assortativity for interested institution subsets
+```{r echo=FALSE}
+# Define the institutions of interest
+institutions_of_interest <- c(
+  "Icahn School of Medicine at Mount Sinai/New York Eye and Ear Infirmary at Mount Sinai",
+  "Vanderbilt University Medical Center",
+  "Montefiore Medical Center/Albert Einstein College of Medicine",
+  "University of Michigan Health System",
+  "University of Southern California/LAC+USC Medical Center"
+)
+
+# Calculate assortativity for each institution of interest
+for (institution in institutions_of_interest) {
+  calculate_assortativity_for_institution(institution)
+}
+```
+
+## Calculate the assortativity for interested specialty subsets
+```{r echo=FALSE}
+# Define the specialties of interest
+specialties_of_interest <- c("Head & Neck", "Pediatric", "General", "Neurotology", "Facial Plastics")
+
+# Calculate assortativity for each specialty of interest
+for (specialty in specialties_of_interest) {
+  calculate_assortativity_for_specialty(specialty)
+}
+```
+
+## calculate global efficiency
+```{r echo=FALSE}
+global_eff <- global_efficiency(g)
+cat("Global Efficiency:", global_eff, "\n")
+```
+
+## Calculate the assortativity for interested institution subsets
+```{r echo=FALSE}
+for (institution in institutions_of_interest) {
+  calculate_efficiency_for_institution(institution)
+}
+```
+
+## Calculate the assortativity for interested specialty subsets
+```{r echo=FALSE}
+for (specialty in specialties_of_interest) {
+  calculate_efficiency_for_specialty(specialty)
+}
+```
