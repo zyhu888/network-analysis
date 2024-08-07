@@ -130,3 +130,53 @@ calculate_efficiency_for_specialty <- function(specialty) {
   specialty_efficiency <- global_efficiency(specialty_g)
   cat("The global efficiency for the", specialty, "subnetwork is:", specialty_efficiency, "\n")
 }
+
+##########################################
+####### Filter nodes and calculate #######
+### transitivity for given institutions###
+##########################################
+calculate_transitivity_for_institution <- function(institution) {
+  # Filter nodes that belong to the specified institution
+  institution_nodes <- nodes[nodes$Institution == institution, ]
+  
+  # Extract the IDs of these filtered nodes
+  institution_node_ids <- institution_nodes$Id
+  
+  # Filter edges where both Source and Target belong to the filtered nodes
+  institution_edges <- edges[edges$Source %in% institution_node_ids & edges$Target %in% institution_node_ids, ]
+  
+  # Create graph object
+  institution_g <- graph_from_data_frame(d = institution_edges, directed = FALSE)
+  
+  # Add weights to graph edges
+  E(institution_g)$weight <- institution_edges$Weight
+  
+  # Calculate and return the global clustering coefficient (transitivity) for the subnetwork
+  institution_transitivity <- transitivity(institution_g, type = "global", weights = E(institution_g)$weight)
+  cat("The global clustering coefficient (transitivity) for the", institution, "subnetwork is:", institution_transitivity, "\n")
+}
+
+##########################################
+####### Filter nodes and calculate #######
+### transitivity for given specialties ###
+##########################################
+calculate_transitivity_for_specialty <- function(specialty) {
+  # Filter nodes that belong to the specified specialty
+  specialty_nodes <- nodes[nodes$Specialty == specialty, ]
+  
+  # Extract the IDs of these filtered nodes
+  specialty_node_ids <- specialty_nodes$Id
+  
+  # Filter edges where both Source and Target belong to the filtered nodes
+  specialty_edges <- edges[edges$Source %in% specialty_node_ids & edges$Target %in% specialty_node_ids, ]
+  
+  # Create graph object
+  specialty_g <- graph_from_data_frame(d = specialty_edges, directed = FALSE)
+  
+  # Add weights to graph edges
+  E(specialty_g)$weight <- specialty_edges$Weight
+  
+  # Calculate and return the global clustering coefficient (transitivity) for the subnetwork
+  specialty_transitivity <- transitivity(specialty_g, type = "global", weights = E(specialty_g)$weight)
+  cat("The global clustering coefficient (transitivity) for the", specialty, "subnetwork is:", specialty_transitivity, "\n")
+}

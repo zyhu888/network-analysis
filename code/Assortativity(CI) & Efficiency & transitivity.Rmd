@@ -136,16 +136,36 @@ global_eff <- global_efficiency(g)
 cat("Global Efficiency:", global_eff, "\n")
 ```
 
-## Calculate the assortativity for interested institution subsets
+## Calculate the efficiency for interested institution subsets
 ```{r echo=FALSE}
 for (institution in institutions_of_interest) {
   calculate_efficiency_for_institution(institution)
 }
 ```
 
-## Calculate the assortativity for interested specialty subsets
+## Calculate the efficiency for interested specialty subsets
 ```{r echo=FALSE}
 for (specialty in specialties_of_interest) {
   calculate_efficiency_for_specialty(specialty)
+}
+```
+
+## calculate global clustering coefficient
+```{r echo=FALSE}
+global_clustering_coefficient <- transitivity(g, type = "global")
+cat("Global clustering coefficient:", global_clustering_coefficient, "\n")
+```
+
+## Calculate the global clustering coefficient for interested institution subsets
+```{r echo=FALSE}
+for (institution in institutions_of_interest) {
+  calculate_transitivity_for_institution(institution)
+}
+```
+
+## Calculate the global clustering coefficient for interested specialty subsets
+```{r echo=FALSE}
+for (specialty in specialties_of_interest) {
+  calculate_transitivity_for_specialty(specialty)
 }
 ```
