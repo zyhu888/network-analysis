@@ -3,44 +3,49 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: /Users/huzeyu/Desktop/network analysis/repo/network-analysis/manuscript/.texpadtmp/notes.aux
 The style file: ../mcap.bst
 Database file #1: ../refs.bib
-You've used 3 entries,
+Repeated entry---line 73 of file ../refs.bib
+ : @article{guimera2005team
+ :                         ,
+I'm skipping whatever remains of this entry
+You've used 15 entries,
             2635 wiz_defined-function locations,
-            586 strings with 5119 characters,
-and the built_in function-call counts, 1754 in all, are:
-= -- 140
-> -- 78
-< -- 1
-+ -- 30
-- -- 27
-* -- 144
-:= -- 290
-add.period$ -- 12
-call.type$ -- 3
-change.case$ -- 24
-chr.to.int$ -- 3
-cite$ -- 3
-duplicate$ -- 124
-empty$ -- 121
-format.name$ -- 38
-if$ -- 329
+            677 strings with 7362 characters,
+and the built_in function-call counts, 8944 in all, are:
+= -- 752
+> -- 366
+< -- 9
++ -- 145
+- -- 126
+* -- 723
+:= -- 1440
+add.period$ -- 60
+call.type$ -- 15
+change.case$ -- 117
+chr.to.int$ -- 15
+cite$ -- 15
+duplicate$ -- 628
+empty$ -- 639
+format.name$ -- 177
+if$ -- 1709
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 25
-newline$ -- 20
-num.names$ -- 12
-pop$ -- 50
+missing$ -- 130
+newline$ -- 80
+num.names$ -- 60
+pop$ -- 230
 preamble$ -- 1
-purify$ -- 21
+purify$ -- 102
 quote$ -- 0
-skip$ -- 38
+skip$ -- 185
 stack$ -- 0
-substring$ -- 72
-swap$ -- 66
+substring$ -- 471
+swap$ -- 347
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 27
+type$ -- 135
 warning$ -- 0
-while$ -- 11
+while$ -- 67
 width$ -- 0
-write$ -- 42
+write$ -- 198
+(There was 1 error message)

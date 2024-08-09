@@ -1,11 +1,71 @@
-\begin{thebibliography}{3}
+\begin{thebibliography}{15}
 \newcommand{\enquote}[1]{``#1''}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Achard and Bullmore(2007)}]{achard2007efficiency}
+S.~Achard and E.~Bullmore (2007).
+\newblock \enquote{Efficiency and cost of economical brain functional networks.}
+\newblock {\em PLoS computational biology\/} {\bf 3}, e17.
+
+\bibitem[{Boccaletti et~al.(2006)Boccaletti, Latora, Moreno, Chavez and Hwang}]{boccaletti2006complex}
+S.~Boccaletti, V.~Latora, Y.~Moreno, M.~Chavez and D.-U. Hwang (2006).
+\newblock \enquote{Complex networks: Structure and dynamics.}
+\newblock {\em Physics reports\/} {\bf 424}, 175--308.
+
+\bibitem[{Bullmore and Sporns(2009)}]{bullmore2009complex}
+E.~Bullmore and O.~Sporns (2009).
+\newblock \enquote{Complex brain networks: graph theoretical analysis of structural and functional systems.}
+\newblock {\em Nature reviews neuroscience\/} {\bf 10}, 186--198.
+
+\bibitem[{Guimera et~al.(2005)Guimera, Uzzi, Spiro and Amaral}]{guimera2005team}
+R.~Guimera, B.~Uzzi, J.~Spiro and L.~A.~N. Amaral (2005).
+\newblock \enquote{Team assembly mechanisms determine collaboration network structure and team performance.}
+\newblock {\em Science\/} {\bf 308}, 697--702.
+
+\bibitem[{Holme and Newman(2006)}]{holme2006nonequilibrium}
+P.~Holme and M.~E. Newman (2006).
+\newblock \enquote{Nonequilibrium phase transition in the coevolution of networks and opinions.}
+\newblock {\em Physical Review E—Statistical, Nonlinear, and Soft Matter Physics\/} {\bf 74}, 056108.
+
+\bibitem[{Latora and Marchiori(2001)}]{latora2001efficient}
+V.~Latora and M.~Marchiori (2001).
+\newblock \enquote{Efficient behavior of small-world networks.}
+\newblock {\em Physical review letters\/} {\bf 87}, 198701.
+
+\bibitem[{Moody(2004)}]{moody2004structure}
+J.~Moody (2004).
+\newblock \enquote{The structure of a social science collaboration network: Disciplinary cohesion from 1963 to 1999.}
+\newblock {\em American sociological review\/} {\bf 69}, 213--238.
+
+\bibitem[{Newman(2001)}]{newman2001structure}
+M.~E. Newman (2001).
+\newblock \enquote{The structure of scientific collaboration networks.}
+\newblock {\em Proceedings of the national academy of sciences\/} {\bf 98}, 404--409.
+
+\bibitem[{Newman(2002)}]{newman2002assortative}
+M.~E. Newman (2002).
+\newblock \enquote{Assortative mixing in networks.}
+\newblock {\em Physical review letters\/} {\bf 89}, 208701.
+
+\bibitem[{Onnela et~al.(2007)Onnela, Saram{\"a}ki, Hyv{\"o}nen, Szab{\'o}, Lazer, Kaski, Kert{\'e}sz and Barab{\'a}si}]{onnela2007structure}
+J.-P. Onnela, J.~Saram{\"a}ki, J.~Hyv{\"o}nen, G.~Szab{\'o}, D.~Lazer, K.~Kaski, J.~Kert{\'e}sz and A.-L. Barab{\'a}si (2007).
+\newblock \enquote{Structure and tie strengths in mobile communication networks.}
+\newblock {\em Proceedings of the national academy of sciences\/} {\bf 104}, 7332--7336.
 
 \bibitem[{Pigorsch and Sabek(2022)}]{pigorsch2022assortative}
 U.~Pigorsch and M.~Sabek (2022).
 \newblock \enquote{Assortative mixing in weighted directed networks.}
 \newblock {\em Physica A: Statistical Mechanics and its Applications\/} {\bf 604}, 127850.
+
+\bibitem[{Piraveenan et~al.(2010)Piraveenan, Prokopenko and Zomaya}]{piraveenan2010assortative}
+M.~Piraveenan, M.~Prokopenko and A.~Zomaya (2010).
+\newblock \enquote{Assortative mixing in directed biological networks.}
+\newblock {\em IEEE/ACM Transactions on computational biology and bioinformatics\/} {\bf 9}, 66--78.
+
+\bibitem[{Watts and Strogatz(1998)}]{watts1998collective}
+D.~J. Watts and S.~H. Strogatz (1998).
+\newblock \enquote{Collective dynamics of ‘small-world’networks.}
+\newblock {\em nature\/} {\bf 393}, 440--442.
 
 \bibitem[{Yuan et~al.(2023)Yuan, Wang, Yan and Zhang}]{yuan2023generating}
 Y.~Yuan, T.~Wang, J.~Yan and P.~Zhang (2023).
